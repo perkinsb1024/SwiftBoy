@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DD8508BA1DEC098600A44942 /* Processor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8508B91DEC098600A44942 /* Processor.swift */; };
-		DD8508BC1DEC099E00A44942 /* RomReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8508BB1DEC099E00A44942 /* RomReader.swift */; };
+		DD8508BC1DEC099E00A44942 /* Cartridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8508BB1DEC099E00A44942 /* Cartridge.swift */; };
 		DD8508BE1DEC8ED300A44942 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8508BD1DEC8ED300A44942 /* Register.swift */; };
 		DDE60CC21DE9503500A24A33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE60CC11DE9503500A24A33 /* AppDelegate.swift */; };
 		DDE60CC41DE9503500A24A33 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE60CC31DE9503500A24A33 /* ViewController.swift */; };
@@ -18,6 +18,7 @@
 		DDE60CDF1DE9503500A24A33 /* SwiftBoyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE60CDE1DE9503500A24A33 /* SwiftBoyUITests.swift */; };
 		DDE60CED1DE950A400A24A33 /* ScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE60CEC1DE950A400A24A33 /* ScreenView.swift */; };
 		DDE60CF01DE952B000A24A33 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE60CEF1DE952B000A24A33 /* CoreGraphics.framework */; };
+		DDEA4AA51DEE8B1400677587 /* GameBoy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEA4AA41DEE8B1400677587 /* GameBoy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +40,7 @@
 
 /* Begin PBXFileReference section */
 		DD8508B91DEC098600A44942 /* Processor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Processor.swift; sourceTree = "<group>"; };
-		DD8508BB1DEC099E00A44942 /* RomReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RomReader.swift; sourceTree = "<group>"; };
+		DD8508BB1DEC099E00A44942 /* Cartridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cartridge.swift; sourceTree = "<group>"; };
 		DD8508BD1DEC8ED300A44942 /* Register.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
 		DDE60CBE1DE9503500A24A33 /* SwiftBoy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftBoy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDE60CC11DE9503500A24A33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -55,6 +56,7 @@
 		DDE60CE01DE9503500A24A33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DDE60CEC1DE950A400A24A33 /* ScreenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenView.swift; sourceTree = "<group>"; };
 		DDE60CEF1DE952B000A24A33 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DDEA4AA41DEE8B1400677587 /* GameBoy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBoy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,8 +114,9 @@
 				DDE60CC51DE9503500A24A33 /* Assets.xcassets */,
 				DDE60CC71DE9503500A24A33 /* Main.storyboard */,
 				DDE60CEC1DE950A400A24A33 /* ScreenView.swift */,
+				DDEA4AA41DEE8B1400677587 /* GameBoy.swift */,
 				DD8508B91DEC098600A44942 /* Processor.swift */,
-				DD8508BB1DEC099E00A44942 /* RomReader.swift */,
+				DD8508BB1DEC099E00A44942 /* Cartridge.swift */,
 				DD8508BD1DEC8ED300A44942 /* Register.swift */,
 				DDE60CCA1DE9503500A24A33 /* Info.plist */,
 			);
@@ -282,9 +285,10 @@
 				DD8508BE1DEC8ED300A44942 /* Register.swift in Sources */,
 				DDE60CED1DE950A400A24A33 /* ScreenView.swift in Sources */,
 				DDE60CC41DE9503500A24A33 /* ViewController.swift in Sources */,
+				DDEA4AA51DEE8B1400677587 /* GameBoy.swift in Sources */,
 				DD8508BA1DEC098600A44942 /* Processor.swift in Sources */,
 				DDE60CC21DE9503500A24A33 /* AppDelegate.swift in Sources */,
-				DD8508BC1DEC099E00A44942 /* RomReader.swift in Sources */,
+				DD8508BC1DEC099E00A44942 /* Cartridge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

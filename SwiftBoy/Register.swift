@@ -9,16 +9,16 @@
 import Foundation
 
 struct Register {
-    var A : UInt8 = 0
-    var B : UInt8 = 0
-    var C : UInt8 = 0
-    var D : UInt8 = 0
-    var E : UInt8 = 0
-    var F : UInt8 = 0
-    var H : UInt8 = 0
-    var L : UInt8 = 0
-    var SP : UInt16 = 0
-    var PC : UInt16 = 0
+    var A : UInt8 = 0x01
+    var B : UInt8 = 0x00
+    var C : UInt8 = 0x13
+    var D : UInt8 = 0x00
+    var E : UInt8 = 0xD8
+    var F : UInt8 = 0xB0
+    var H : UInt8 = 0x01
+    var L : UInt8 = 0x4D
+    var SP : UInt16 = 0xFFFE
+    var PC : UInt16 = 0x100
     var BC : UInt16 {
         get {
             //return UInt16(C) << 8 + UInt16(B)
