@@ -16,6 +16,7 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         gameBoy = GameBoy(screen: screen)
         gameBoy?.loadRom(romFile: "/Users/benperkins/Documents/Programming/Gameboy/ROMs/socks.gb")
+        gameBoy?.drawLogo(startRow: -16)
     }
 
     override var representedObject: Any? {

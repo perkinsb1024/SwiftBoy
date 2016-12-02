@@ -9,15 +9,15 @@
 import Cocoa
 
 class GameBoy: NSObject {
-    var screen : ScreenView?
+    var screen : ScreenView
     var cartridge : Cartridge?
-    var processor : Processor?
+    var processor : Processor
     
     init(screen : ScreenView) {
-        super.init()
         self.screen = screen
         processor = Processor()
-        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(GameBoy.updateScreen), userInfo: nil, repeats: true)
+        super.init()
+        //Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(GameBoy.updateScreen), userInfo: nil, repeats: true)
     }
     
     func loadRom(romFile: String) {
@@ -25,9 +25,33 @@ class GameBoy: NSObject {
         guard let cartridge = cartridge else {
             return
         }
-        print(cartridge.logo)
         cartridge.writeRam(data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], offset: 10)
         print(cartridge.readRam(offset: 0, length: 20))
+    }
+    
+    func drawLogo(startRow : Int) {
+        let startCol = 32
+        screen.fill(colorCode: 3)
+        for i in 0 ..< cartridge!.logo.count {
+            let byte = cartridge!.logo[i]
+            for j in 0 ..< 8 {
+                let colorCode = (Int(byte) >> (7 - j) & 1) == 1 ? 0 : 3
+                let dX = ((Int(i / 2) % 12) * 4 + (j % 4)) * 2
+                let dY = ((i < 24 ? 0 : 4) + (i % 2) * 2 + (j < 4 ? 0 : 1)) * 2
+                
+                screen.set(x: startCol + dX, y: startRow + dY, toColor: colorCode)
+                screen.set(x: startCol + dX + 1, y: startRow + dY + 1, toColor: colorCode)
+                screen.set(x: startCol + dX, y: startRow + dY + 1, toColor: colorCode)
+                screen.set(x: startCol + dX + 1, y: startRow + dY, toColor: colorCode)
+            }
+        }
+        screen.update()
+        func scroll(_ : Timer) {
+            if(startRow < 58) {
+                drawLogo(startRow: startRow + 1)
+            }
+        }
+        Timer.scheduledTimer(withTimeInterval: 0.03, repeats: false, block: scroll)
     }
     
     func readMemory(offset: Int, length: Int) -> [UInt8]? {
@@ -45,7 +69,7 @@ class GameBoy: NSObject {
     }
     
     func updateScreen() {
-        screen?.randomize()
-        screen?.update()
+        screen.randomize()
+        screen.update()
     }
 }

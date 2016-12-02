@@ -55,6 +55,42 @@ class ScreenView: NSView {
         }
     }
     
+    private func colorFromCode(_ colorCode : Int) -> PixelData? {
+        switch(colorCode) {
+        case 0:
+            return gbPixelColor1
+        case 1:
+            return gbPixelColor2
+        case 2:
+            return gbPixelColor3
+        case 3:
+            return gbPixelColor4
+        case _:
+            return nil
+        }
+    }
+    
+    func set(x: Int, y: Int, toColor colorCode : Int) {
+        guard x >= 0 && x < width && y >= 0 && y < height else {
+            return
+        }
+        
+        guard let color = colorFromCode(colorCode) else {
+            return
+        }
+        guard width * y + x < pixelBuffer.count else {
+            return
+        }
+        pixelBuffer[width * y + x] = color
+    }
+    
+    func fill(colorCode : Int) {
+        guard let color = colorFromCode(colorCode) else {
+            return
+        }
+        pixelBuffer = [PixelData](repeating: color, count: (width * height))
+    }
+    
     override func draw(_ dirtyRect: NSRect) {
         guard let context = NSGraphicsContext.current()?.cgContext else {
             return

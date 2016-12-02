@@ -1,5 +1,5 @@
 //
-//  RomReader.swift
+//  Cartridge.swift
 //  SwiftBoy
 //
 //  Created by Ben Perkins on 11/27/16.
@@ -79,7 +79,7 @@ extension Cartridge {
 // Cartridge contansts
 extension Cartridge {
     var logo : [UInt8] {
-        return readRom(offset: 0x104, length: 0x20)
+        return readRom(offset: 0x104, length: 0x30)
     }
     var title : [UInt8] {
         return readRom(offset: 0x134, length: 0x15)
