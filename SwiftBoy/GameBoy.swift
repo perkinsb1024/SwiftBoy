@@ -5,17 +5,28 @@
 //  Created by Ben Perkins on 11/29/16.
 //  Copyright © 2016 perkinsb1024. All rights reserved.
 //
-
-import Cocoa
-
-class GameBoy: NSObject {
-    var screen : ScreenView
-    var cartridge : Cartridge?
-    var processor : Processor
     
-    init(screen : ScreenView) {
-        self.screen = screen
-        processor = Processor()
+    import Cocoa
+
+    class GameBoy: NSObject {
+    // Create the virtual hardware
+    // Todo: Should probably make a ScreenController that abstracts the ScreenView
+    let screen: ScreenController
+    let processor: Processor
+    let registers: Register
+    let stack: Memory
+    let memoryManager: MemoryManager
+    var cartridge: Cartridge?
+    
+    init(screenView: ScreenView) {
+        // Memory
+        registers = Register()
+        stack = Memory(withSize: 127, initialValue: 0, asRom: false)
+        // Memory Manager
+        memoryManager = MemoryManager(registers: registers, stack: stack)
+        // Memory Consumers (Processor, IO)
+        processor = Processor(registers: registers, stack: stack, memoryManager: memoryManager)
+        screen = ScreenController(screen: screenView, memoryManager: memoryManager)
         super.init()
         //Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(GameBoy.updateScreen), userInfo: nil, repeats: true)
     }
@@ -25,8 +36,22 @@ class GameBoy: NSObject {
         guard let cartridge = cartridge else {
             return
         }
-        cartridge.writeRam(data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], offset: 10)
-        print(cartridge.readRam(offset: 0, length: 20))
+        memoryManager.setCartridge(cartridge)
+        cartridge.enableRam()
+        if(cartridge.writeRam([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], toOffset: 10)) {
+            print(cartridge.readRamAt(0, length: 20)!)
+        }
+        cartridge.disableRam()
+    }
+        
+    func run() {
+        var sX: UInt8 = 0
+        func draw(_ : Timer) {
+            screen.drawScreen(sX: sX)
+
+            sX = (sX + 1) % 32
+        }
+        Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true, block: draw)
     }
     
     func drawLogo(startRow : Int) {
@@ -52,20 +77,6 @@ class GameBoy: NSObject {
             }
         }
         Timer.scheduledTimer(withTimeInterval: 0.03, repeats: false, block: scroll)
-    }
-    
-    func readMemory(offset: Int, length: Int) -> [UInt8]? {
-        // Todo: Remove magic numbers
-        switch(offset) {
-        case offset where offset >= 0 && offset + length < 0x8000:
-            return cartridge?.readRom(offset: offset, length: length)
-        case offset where offset >= 0x8000 && offset + length < 0x8000:
-            return [UInt8](repeating: 0, count: length)
-        case offset where offset >= 0xA000 && offset + length < 0xBFFF:
-            return  cartridge?.readRam(offset: offset - 0xA000, length: length)
-        default:
-            return nil
-        }
     }
     
     func updateScreen() {

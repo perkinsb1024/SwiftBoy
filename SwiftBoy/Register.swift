@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Register {
+class Register {
     var A : UInt8 = 0x01
     var B : UInt8 = 0x00
     var C : UInt8 = 0x13

@@ -6,13 +6,15 @@
 //  Copyright © 2016 perkinsb1024. All rights reserved.
 //
 
-import Cocoa
-
-class Processor: NSObject {
-    var registers = Register()
+class Processor {
+    let registers: Register
+    let stack: Memory
+    let memoryManager: MemoryManager
     
-    override init() {
-        registers.SP = 0x100
+    init(registers: Register, stack: Memory, memoryManager: MemoryManager) {
+        self.registers = registers
+        self.stack = stack
+        self.memoryManager = memoryManager
     }
     
     func dumpRegisters() {

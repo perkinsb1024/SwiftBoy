@@ -14,15 +14,10 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        gameBoy = GameBoy(screen: screen)
+        gameBoy = GameBoy(screenView: screen)
         gameBoy?.loadRom(romFile: "/Users/benperkins/Documents/Programming/Gameboy/ROMs/socks.gb")
-        gameBoy?.drawLogo(startRow: -16)
-    }
-
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
-        }
+        //gameBoy?.drawLogo(startRow: -16)
+        gameBoy?.run()
     }
 }
 
