@@ -15,17 +15,17 @@ class Memory {
         return data.count
     }
     
-    init(withData data: Array<UInt8>, asRom readOnly: Bool) {
+    init(withData data: Array<UInt8>, readOnly: Bool) {
         self.data = data
         self.readOnly = readOnly
     }
     
-    init(withSize count: Int, initialValue: UInt8, asRom readOnly: Bool) {
+    init(withSize count: Int, initialValue: UInt8, readOnly: Bool) {
         self.data = Array(repeating: 0, count: count)
         self.readOnly = readOnly
     }
     
-    init?(withContentsOfFile filePath: String, asRom readOnly: Bool) {
+    init?(withContentsOfFile filePath: String, readOnly: Bool) {
         do {
             let fileData = try Data.init(contentsOf: URL.init(fileURLWithPath: filePath))
             data = Array(fileData)
@@ -36,7 +36,6 @@ class Memory {
         self.readOnly = readOnly
     }
     
-    // Not using subscripts because they can't throw...
     func readDataAt(_ index: Int) -> UInt8? {
         guard index >= 0 && index < data.count else {
             return nil
@@ -44,11 +43,12 @@ class Memory {
         return data[index]
     }
     func readDataAt(_ range: Range<Int>) -> [UInt8]? {
-        guard range.lowerBound >= 0 && range.upperBound < data.count else {
+        guard range.lowerBound >= 0 && range.upperBound <= data.count else {
             return nil
         }
         return Array(data[range])
     }
+    
     func readDataAt(_ index: Int, length: Int) -> [UInt8]? {
         guard length > 0 else {
             return nil

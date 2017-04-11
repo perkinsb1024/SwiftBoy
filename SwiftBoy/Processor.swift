@@ -6,19 +6,42 @@
 //  Copyright © 2016 perkinsb1024. All rights reserved.
 //
 
+enum Conditional {
+    case NZ
+    case Z
+    case NC
+    case C
+}
+
 class Processor {
+    let flags: Flag
     let registers: Register
-    let stack: Memory
+    let ram: Memory
     let memoryManager: MemoryManager
+    var halted: Bool = false // Todo: Use this
     
-    init(registers: Register, stack: Memory, memoryManager: MemoryManager) {
+    init(registers: Register, flags: Flag, ram: Memory, memoryManager: MemoryManager) {
         self.registers = registers
-        self.stack = stack
+        self.ram = ram
         self.memoryManager = memoryManager
+        self.flags = flags
     }
     
     func dumpRegisters() {
         registers.printAll()
+    }
+    
+    func validateConditional(_ condition: Conditional) -> Bool {
+        switch condition {
+        case .NZ:
+            return flags.Z == 0
+        case .Z:
+            return flags.Z != 0
+        case .NC:
+            return flags.C == 0
+        case .C:
+            return flags.C != 0
+        }
     }
     
     func getOpcodeLength(_ opcode : UInt8) -> Int {
@@ -31,5 +54,19 @@ class Processor {
         case _: // All the rest are 1
             return 1
         }
+    }
+    
+    func step() {
+        let command = getNextCommand()
+        // Todo: Triple check that it's safe to increment PC before processing the command
+        registers.PC += UInt16(command.count)
+        processCommand(command)
+    }
+    
+    func getNextCommand() -> [UInt8] {
+        // Get the opcode
+        let opcode = memoryManager.readMemory(offset: Int(registers.PC), length: 1)![0]
+        // Return the full
+        return memoryManager.readMemory(offset: Int(registers.PC), length: getOpcodeLength(opcode))!
     }
 }

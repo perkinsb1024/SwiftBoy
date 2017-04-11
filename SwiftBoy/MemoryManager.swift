@@ -48,17 +48,20 @@ class MemoryManager {
     var allowEchoRamRead = false
     var allowEchoRamWrite = false
     let registers: Register
-    let stack: Memory
+    let flags: Flag
+    let ram: Memory
     var cartridge: Cartridge?
     
-    init(registers: Register, stack: Memory) {
+    init(registers: Register, flags: Flag, ram: Memory) {
         self.registers = registers
-        self.stack = stack
+        self.flags = flags
+        self.ram = ram
     }
     
-    init(registers: Register, stack: Memory, cartridge: Cartridge) {
+    init(registers: Register, flags: Flag, ram: Memory, cartridge: Cartridge) {
         self.registers = registers
-        self.stack = stack
+        self.flags = flags
+        self.ram = ram
         self.cartridge = cartridge
     }
     
@@ -68,6 +71,18 @@ class MemoryManager {
     
     func removeCartridge() {
         self.cartridge = nil
+    }
+    
+    func readMemory(offset: UInt16, length: UInt16) -> [UInt8]? {
+        return readMemory(offset: Int(offset), length: Int(length))
+    }
+    
+    func readMemory(offset: UInt16, length: UInt8) -> [UInt8]? {
+        return readMemory(offset: Int(offset), length: Int(length))
+    }
+    
+    func readMemory(offset: UInt16, length: Int) -> [UInt8]? {
+        return readMemory(offset: Int(offset), length: length)
     }
     
     // Read multiple bytes from memory
@@ -108,11 +123,11 @@ class MemoryManager {
             return nil
             //return self.cartridge.readRomAt(offset, length: length)
         case offset where offset >= ZERO_PAGE_START && offset + length <= INT_ENABLE_START:
-            // Todo: Read zero page
-            return nil
+            // Read zero page (internal RAM?)
+            return ram.readDataAt(offset, length: length)
             //return self.cartridge.readRomAt(offset, length: length)
         case offset where offset >= INT_ENABLE_START && offset + length <= UPPER_BOUND:
-            // Todo: Read interrupt enable flag
+            // Todo: Read int enable
             return nil
             //return self.cartridge.readRomAt(offset, length: length)
         default:
@@ -122,15 +137,27 @@ class MemoryManager {
     
     // Helper function to write a single byte to memory
     @discardableResult
+    func writeMemory(data: UInt8, offset: UInt16) -> Bool {
+        return writeMemory(data: [data], offset: Int(offset))
+    }
+    
+    // Helper function to write a single byte to memory
+    @discardableResult
     func writeMemory(data: UInt8, offset: Int) -> Bool {
-        return writeMemory(data: [data], offset: offset, length: 1)
+        return writeMemory(data: [data], offset: offset)
+    }
+    
+    // Helper function to write data to a UInt16 offset
+    @discardableResult
+    func writeMemory(data: [UInt8], offset: UInt16) -> Bool {
+        return writeMemory(data: data, offset: Int(offset))
     }
     
     // Write multiple bytes to memory
     // Automatically routes non-memory values to correct behavior
     // Returns true if successful, false on error
     @discardableResult
-    func writeMemory(data: [UInt8], offset: Int, length: Int) -> Bool {
+    func writeMemory(data: [UInt8], offset: Int) -> Bool {
         let length = data.count
         switch(offset) {
         case offset where offset >= RAM_BANK_ENABLE && offset + length <= ROM_BANK_SELECT_LSB:
@@ -177,11 +204,9 @@ class MemoryManager {
         case offset where offset >= CHAR_DATA_START && offset + length <= BKG_DATA_0_START:
             // Todo: Read character data
             return false
-        //return self.cartridge.readRomAt(offset, length: length)
         case offset where offset >= BKG_DATA_0_START && offset + length <= CART_WRAM_START:
             // Todo: Read background data
             return false
-        //return self.cartridge.readRomAt(offset, length: length)
         case offset where offset >= CART_WRAM_START && offset + length <= GB_WRAM_BANK_0_START:
             // Read cartridge WRAM
             guard cartridge != nil else {
@@ -189,30 +214,26 @@ class MemoryManager {
             }
             return self.cartridge!.writeRam(data, toOffset: offset - 0xA000)
         case offset where offset >= GB_WRAM_BANK_0_START && offset + length <= GB_ECHO_WRAM_START:
-            // Todo: Read internal WRAM
+            // Todo: Write internal WRAM
             return false
         case offset where offset >= GB_ECHO_WRAM_START && offset + length <= OAM_START:
-            // Read internal echo WRAM (if allowed)
+            // Write internal echo WRAM (if allowed)
             guard cartridge != nil && self.allowEchoRamWrite else {
                 return false
             }
             return self.cartridge!.writeRam(data, toOffset: offset)
         case offset where offset >= OAM_START && offset + length <= REG_START:
-            // Todo: Read OAM (object attribute memory)
+            // Todo: Write OAM (object attribute memory)
             return false
-        //return self.cartridge.readRomAt(offset, length: length)
         case offset where offset >= REG_START && offset + length <= ZERO_PAGE_START:
-            // Todo: Read register
+            // Todo: Write register
             return false
-        //return self.cartridge.readRomAt(offset, length: length)
         case offset where offset >= ZERO_PAGE_START && offset + length <= INT_ENABLE_START:
-            // Todo: Read zero page
-            return false
-        //return self.cartridge.readRomAt(offset, length: length)
+            // Write zero page (internal ram?)
+            return ram.writeData(data, toRange: offset..<(offset+length))
         case offset where offset >= INT_ENABLE_START && offset + length <= UPPER_BOUND:
-            // Todo: Read interrupt enable flag
+            // Todo: Write interrupt enable flag
             return false
-        //return self.cartridge.readRomAt(offset, length: length)
         default:
             return false
         }

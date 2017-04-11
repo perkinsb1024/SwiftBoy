@@ -15,13 +15,23 @@ class Cartridge {
     
     init?(_ romFile : String) {
         // Todo: Set size based on self.ramSize, allow banking
-        let tempRam = Memory(withSize: 0x2000, initialValue: 0, asRom: false)
-        let tempRom = Memory(withContentsOfFile: romFile, asRom: true)
+        let tempRam = Memory(withSize: 0x2000, initialValue: 0, readOnly: false)
+        let tempRom = Memory(withContentsOfFile: romFile, readOnly: true)
         guard tempRom != nil else {
             return nil
         }
         ram = tempRam
         rom = tempRom!
+    }
+    
+    /* This is for unit tests only */
+    // Todo: Figure out how to mock this
+    init() {
+        // Todo: Set size based on self.ramSize, allow banking
+        let tempRam = Memory(withSize: 0x2000, initialValue: 0, readOnly: false)
+        let tempRom = Memory(withSize: 0x2000, initialValue: 0, readOnly: true)
+        ram = tempRam
+        rom = tempRom
     }
     
     func printLogo() {

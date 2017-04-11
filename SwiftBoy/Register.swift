@@ -19,6 +19,19 @@ class Register {
     var L : UInt8 = 0x4D
     var SP : UInt16 = 0xFFFE
     var PC : UInt16 = 0x100
+    var IME : UInt8 = 0
+    var AF : UInt16 {
+        get {
+            //return UInt16(F) << 8 + UInt16(A)
+            return UInt16(A) << 8 + UInt16(F)
+        }
+        set {
+            // A = UInt8(newValue & 0xFF)
+            // F = UInt8((newValue >> 8) & 0xFF)
+            A = UInt8((newValue >> 8) & 0xFF)
+            F = UInt8(newValue & 0xFF)
+        }
+    }
     var BC : UInt16 {
         get {
             //return UInt16(C) << 8 + UInt16(B)
@@ -59,8 +72,8 @@ class Register {
     func printAll() {
         let names : [(String, UInt)] = [("A", UInt(A)), ("B", UInt(B)), ("C", UInt(C)), ("D", UInt(D)),
                                        ("E", UInt(E)), ("F", UInt(F)), ("H", UInt(H)), ("L", UInt(L)),
-                                       ("BC", UInt(BC)), ("DE", UInt(DE)), ("HL", UInt(HL)),
-                                       ("SP", UInt(SP)), ("PC", UInt(PC))]
+                                       ("AF", UInt(BC)), ("BC", UInt(BC)), ("DE", UInt(DE)),
+                                       ("HL", UInt(HL)), ("SP", UInt(SP)), ("PC", UInt(PC))]
         for (name, value) in names {
             let hexValue = String(format:"%02X", value)
             print("\(name):\t0x\(hexValue)")
