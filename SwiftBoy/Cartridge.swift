@@ -50,7 +50,8 @@ class Cartridge {
     }
     
     func readRomAt(_ offset: Int, length: Int) -> [UInt8]? {
-        guard(offset >= 0x100 && offset + length <= rom.count) else {
+        // Todo: Verify you're allowed to read 0x00 to 0x100
+        guard(offset + length <= rom.count) else {
             return nil
         }
         

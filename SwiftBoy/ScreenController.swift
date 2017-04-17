@@ -211,6 +211,8 @@ extension ScreenController {
     }
 }
 
+// Debugging
+
 extension ScreenController {
     var fontData: [UInt8] {
         return

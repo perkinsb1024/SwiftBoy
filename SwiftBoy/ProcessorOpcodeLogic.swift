@@ -93,7 +93,7 @@ extension Processor {
     }
     
     func CP(sourceA: UInt8, sourceB: UInt8) {
-        flags.C = 0 // Todo: How is this calculated?
+        flags.C = (sourceA < sourceB) ? 1 : 0
         flags.H = 0 // Todo: How is this calculated?
         flags.N = 1
         flags.Z = (sourceA == sourceB) ? 1 : 0
@@ -304,14 +304,14 @@ extension Processor {
     }
     
     func POP(destination: inout UInt16) {
-        // Todo: Does Gameboy do any safety checks?
+        // Verify: Does Gameboy do any safety checks?
         let data = memoryManager.readMemory(offset: Int(registers.SP), length: 2)!
         registers.SP = registers.SP &+ 2
         destination = UInt16(data[0]) << 8 &+ UInt16(data[1])
     }
     
     func PUSH(value: UInt16) {
-        // Todo: Does Gameboy do any safety checks?
+        // Verify: Does Gameboy do any safety checks?
         registers.SP = registers.SP &- 2
         memoryManager.writeMemory(data: [UInt8((value >> 8) & 0xFF), UInt8(value & 0xFF)], offset: Int(registers.SP))
     }

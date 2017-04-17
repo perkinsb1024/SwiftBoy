@@ -8,35 +8,6 @@
 
 import Foundation
 
-/* 
- * Read only + Read/Write memory addresses
- */
-let LOWER_BOUND = 0x0
-//let INT_VECTOR_START = 0x0
-let CART_ROM_BANK_0_START = 0x0//0x100
-let CART_ROM_BANK_N_START = 0x4000
-let CHAR_DATA_START = 0x8000
-let BKG_DATA_0_START = 0x9800
-let BKG_DATA_1_START = 0x9C00
-let CART_WRAM_START = 0xA000
-let GB_WRAM_BANK_0_START = 0xC000
-let GB_WRAM_BANK_N_START = 0xD000
-let GB_ECHO_WRAM_START = 0xE000
-let OAM_START = 0xFE00
-let REG_START = 0xFF00
-let ZERO_PAGE_START = 0xFF80
-let INT_ENABLE_START = 0xFFFF
-let UPPER_BOUND = 0x10000
-
-/*
- * Write only memory addresses
- */
-let RAM_BANK_ENABLE = 0x0
-let ROM_BANK_SELECT_LSB = 0x2000
-let ROM_BANK_SELECT_MSB = 0x3000
-let RAM_BANK_SELECT = 0x4000
-let RAM_ROM_SELECT = 0x6000
-
 /*
  * Write only constant values
  */
@@ -45,8 +16,38 @@ let DISABLE_RAM_BANK_VALUE = 0x0
 let ENABLE_RAM_BANK_VALUE = 0xA
 
 class MemoryManager {
+    /*
+     * Read only + Read/Write memory addresses
+     */
+    let LOWER_BOUND = 0x0
+    let CART_ROM_BANK_0_START = 0x0
+    let BOOTLOADER_STOP_ADDRESS = 0x100
+    let CART_ROM_BANK_N_START = 0x4000
+    let CHAR_DATA_START = 0x8000
+    let BKG_DATA_0_START = 0x9800
+    let BKG_DATA_1_START = 0x9C00
+    let CART_WRAM_START = 0xA000
+    let GB_WRAM_BANK_0_START = 0xC000
+    let GB_WRAM_BANK_N_START = 0xD000
+    let GB_ECHO_WRAM_START = 0xE000
+    let OAM_START = 0xFE00
+    let REG_START = 0xFF00
+    let ZERO_PAGE_START = 0xFF80
+    let INT_ENABLE_START = 0xFFFF
+    let UPPER_BOUND = 0x10000
+    
+    /*
+     * Write only memory addresses
+     */
+    let RAM_BANK_ENABLE = 0x0
+    let ROM_BANK_SELECT_LSB = 0x2000
+    let ROM_BANK_SELECT_MSB = 0x3000
+    let RAM_BANK_SELECT = 0x4000
+    let RAM_ROM_SELECT = 0x6000
+    
     var allowEchoRamRead = false
     var allowEchoRamWrite = false
+    var bootloaderReadEnabled = false
     let registers: Register
     let flags: Flag
     let ram: Memory
@@ -92,6 +93,10 @@ class MemoryManager {
         switch(offset) {
         case offset where offset >= CART_ROM_BANK_0_START && offset + length <= CHAR_DATA_START:
             // Read cartridge ROM
+            if(offset < BOOTLOADER_STOP_ADDRESS && bootloaderReadEnabled) {
+                // Todo: Read bootloader
+                return Array.init(repeating: 0, count: length)
+            }
             return self.cartridge?.readRomAt(offset, length: length)
         case offset where offset >= CHAR_DATA_START && offset + length <= BKG_DATA_0_START:
             // Todo: Read character data
@@ -232,8 +237,8 @@ class MemoryManager {
             // Write zero page (internal ram?)
             return ram.writeData(data, toRange: offset..<(offset+length))
         case offset where offset >= INT_ENABLE_START && offset + length <= UPPER_BOUND:
-            // Todo: Write interrupt enable flag
-            return false
+            registers.IME = (data[0] == UInt8(1)) ? 1 : 0
+            return true
         default:
             return false
         }

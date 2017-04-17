@@ -10,7 +10,6 @@ import Cocoa
 
 class GameBoy: NSObject {
     // Create the virtual hardware
-    // Todo: Should probably make a ScreenController that abstracts the ScreenView
     let screen: ScreenController
     let processor: Processor
     let registers: Register
@@ -40,31 +39,18 @@ class GameBoy: NSObject {
             return
         }
         memoryManager.setCartridge(cartridge)
-        cartridge.enableRam()
-        if(cartridge.writeRam([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], toOffset: 10)) {
-            print(cartridge.readRamAt(0, length: 20)!)
-        }
-        cartridge.disableRam()
-        processor.PUSH(value: 0xBEEF)
-        processor.PUSH(value: 0xDEAD)
-        processor.POP(destination: &registers.BC)
-        processor.POP(destination: &registers.DE)
-        
-        let bc = String(format:"%02X", registers.BC)
-        print("BC: 0x\(bc)")
-        let de = String(format:"%02X", registers.DE)
-        print("BC: 0x\(de)")
     }
     
-    func run() {
-        var sX: UInt8 = 0
-        func draw(_ : Timer) {
-            screen.drawScreen(sX: sX)
-
-            sX = (sX + 1) % 32
+    func start() {
+        registers.PC = 0x100
+        registers.SP = 0xFFFE
+        Timer.scheduledTimer(withTimeInterval: 0.25, repeats: false, block: run)
+    }
+    
+    func run(_ : Timer) {
+        while(!processor.halted) {
+            processor.step()
         }
-        //Timer.init(timeInterval: 0.25, repeats: true, block: draw)
-        Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true, block: draw)
     }
     
     func drawLogo(startRow : Int) {

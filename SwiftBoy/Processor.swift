@@ -57,16 +57,23 @@ class Processor {
     }
     
     func step() {
-        let command = getNextCommand()
+        let command = getNextCommand()!
         // Todo: Triple check that it's safe to increment PC before processing the command
         registers.PC += UInt16(command.count)
         processCommand(command)
     }
     
-    func getNextCommand() -> [UInt8] {
+    func getNextCommand() -> [UInt8]? {
+        return getCommand(atAddress: registers.PC)
+    }
+    
+    func getCommand(atAddress address: UInt16) -> [UInt8]? {
+        guard Int(address) < memoryManager.CHAR_DATA_START else {
+            return nil
+        }
         // Get the opcode
-        let opcode = memoryManager.readMemory(offset: Int(registers.PC), length: 1)![0]
-        // Return the full
-        return memoryManager.readMemory(offset: Int(registers.PC), length: getOpcodeLength(opcode))!
+        let opcode = memoryManager.readMemory(offset: Int(address), length: 1)![0]
+        // Return the full command
+        return memoryManager.readMemory(offset: Int(address), length: getOpcodeLength(opcode))!
     }
 }
