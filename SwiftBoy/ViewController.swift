@@ -16,7 +16,7 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         gameBoy = GameBoy(screenView: screen)
-        gameBoy?.loadRom(romFile: "/Users/benperkins/Documents/Programming/Gameboy/asm/joypadTest/joypad.gb")
+        gameBoy?.loadRom(romFile: "/Users/benperkins/Downloads/joypad.gb")
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
         
         debuggerWindow = storyboard.instantiateController(withIdentifier: "debuggerWindowController") as? NSWindowController
@@ -28,7 +28,7 @@ class ViewController: NSViewController {
             
             for vc in (debuggerWindow!.contentViewController?.childViewControllers)! {
                 if vc is DisassemblyViewController {
-                    disassemblyViewController = vc as! DisassemblyViewController
+                    disassemblyViewController = vc as? DisassemblyViewController
                     break
                 }
             }
@@ -36,9 +36,28 @@ class ViewController: NSViewController {
         } else {
             print("Error, no debugger window")
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleFlowControl), name: flowControlNotificationName, object: nil)
         //gameBoy?.loadRom(romFile: "/Users/benperkins/Documents/Programming/Gameboy/ROMs/socks.gb")
-        //gameBoy?.drawLogo(startRow: -16)
-        //gameBoy?.start()
+//        gameBoy?.drawLogo(startRow: -16)
+//        gameBoy?.start()
+    }
+    
+    func handleFlowControl(_ notification: Notification) {
+        guard let action = notification.object as? FlowControlAction else {
+            return
+        }
+        switch(action) {
+        case .Stop:
+            print("Stop")
+            break
+        case .Step:
+            print("Step")
+            break
+        case .Run:
+            print("Run")
+            break
+        }
     }
 }
 

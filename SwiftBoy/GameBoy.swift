@@ -41,6 +41,14 @@ class GameBoy: NSObject {
         memoryManager.setCartridge(cartridge)
     }
     
+    // Not a Game Boy hardware function -- Controls emulation
+    func stop() {
+        /* Todo: Figure out a clean way to stop emulation for debugging/stepping,
+            setting the processor.halted flag is not an acceptable solution.
+            Perhaps a GameBoy.emulating flag?
+        */
+    }
+    
     func start() {
         registers.PC = 0x100
         registers.SP = 0xFFFE

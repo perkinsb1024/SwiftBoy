@@ -12,6 +12,12 @@ class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet var disassemblyController: NSArrayController!
     @IBOutlet weak var disassmeblyView: NSScrollView!
     
+    enum FlowControlSegment: Int {
+        case Stop = 0
+        case Step = 1
+        case Run = 2
+    }
+    
     func generateDisassembly(processor: Processor) {
         var address: UInt16 = 0x0
         var command: [UInt8]?
@@ -41,4 +47,26 @@ class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    @IBAction func flowControlSegmentClicked(_ caller: NSSegmentedControl) {
+        let clickedSegment = FlowControlSegment(rawValue: caller.selectedSegment);
+        switch clickedSegment {
+        case .Stop?:
+            NotificationCenter.default.post(name: flowControlNotificationName, object: FlowControlAction.Stop);
+            break;
+        case .Step?:
+            NotificationCenter.default.post(name: flowControlNotificationName, object: FlowControlAction.Step);
+            break;
+        case .Run?:
+            NotificationCenter.default.post(name: flowControlNotificationName, object: FlowControlAction.Run);
+            break;
+        default:
+            break;
+        }
+    }
+    
+    @IBAction func baseSelectrionSegmentClicked(_ caller: NSSegmentedControl) {
+        print(caller.selectedSegment);
+    }
+    
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DD0134B91EA447BF006A885A /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0134B81EA447BF006A885A /* RegisterViewController.swift */; };
+		DD324BAC21710AB100C3A311 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD324BAB21710AB100C3A311 /* Globals.swift */; };
 		DD5EB5331E0C6832002FA559 /* Flag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5EB5321E0C6832002FA559 /* Flag.swift */; };
 		DD5EB5351E0C762A002FA559 /* ProcessorCommandProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5EB5341E0C762A002FA559 /* ProcessorCommandProcessor.swift */; };
 		DD5EB5371E0C7633002FA559 /* ProcessorOpcodeLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5EB5361E0C7633002FA559 /* ProcessorOpcodeLogic.swift */; };
@@ -50,6 +51,7 @@
 
 /* Begin PBXFileReference section */
 		DD0134B81EA447BF006A885A /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		DD324BAB21710AB100C3A311 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		DD5EB5321E0C6832002FA559 /* Flag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flag.swift; sourceTree = "<group>"; };
 		DD5EB5341E0C762A002FA559 /* ProcessorCommandProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessorCommandProcessor.swift; sourceTree = "<group>"; };
 		DD5EB5361E0C7633002FA559 /* ProcessorOpcodeLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessorOpcodeLogic.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				DDE60CC51DE9503500A24A33 /* Assets.xcassets */,
 				DDE60CC71DE9503500A24A33 /* Main.storyboard */,
 				DDEDCE0E1EA2C6C600533665 /* DisassemblyViewController.swift */,
+				DD324BAB21710AB100C3A311 /* Globals.swift */,
 				DD0134B81EA447BF006A885A /* RegisterViewController.swift */,
 				DDE60CC11DE9503500A24A33 /* AppDelegate.swift */,
 				DDE60CC31DE9503500A24A33 /* ViewController.swift */,
@@ -320,6 +323,7 @@
 				DDE60CED1DE950A400A24A33 /* ScreenView.swift in Sources */,
 				DD8BE8B01EA42863003F0D8C /* ProcessorOpcodeDescriber.swift in Sources */,
 				DD8C48B81DFE096200882FD3 /* MemoryManager.swift in Sources */,
+				DD324BAC21710AB100C3A311 /* Globals.swift in Sources */,
 				DDE60CC41DE9503500A24A33 /* ViewController.swift in Sources */,
 				DD5EB5331E0C6832002FA559 /* Flag.swift in Sources */,
 				DDEA4AA51DEE8B1400677587 /* GameBoy.swift in Sources */,
