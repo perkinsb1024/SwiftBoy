@@ -11,6 +11,7 @@ import Cocoa
 class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet var disassemblyController: NSArrayController!
     @IBOutlet weak var disassmeblyView: NSScrollView!
+    var currentAddressString: String?
     
     func generateDisassembly(processor: Processor) {
         var address: UInt16 = 0x0
@@ -38,7 +39,46 @@ class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
         disassemblyController.content = disassemblyContent
     }
     
+    @IBAction func flowButtonPressed(_ sender: NSSegmentedControl) {
+        
+        // Todo: Send a message here that the Debugger can listen for
+//        switch sender.indexOfSelectedItem {
+//        case 0:
+//            processor.halted = true
+//            break
+//        case 1:
+//            processor.step()
+//            break
+//        case 2:
+//            processor.halted = false
+//            break
+//        default:
+//            break
+//        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func setCurrentOpcode(_ address: Int?) {
+        if let address = address {
+            currentAddressString = String(format:"0x%04X", address)
+        }
+        else {
+            currentAddressString = nil
+        }
+    }
+}
+
+extension DisassemblyViewController: NSTableViewDelegate {
+    func tableView(_ tableView: NSTableView,
+                   didAdd rowView: NSTableRowView,
+                   forRow row: Int)
+    {
+        let firstColumn = rowView.subviews[0] as? NSTableCellView
+        if(firstColumn?.textField?.stringValue == currentAddressString) {
+            rowView.backgroundColor = NSColor(red: 0.1, green: 0.4, blue: 0.9, alpha: 0.5)
+        }
     }
 }

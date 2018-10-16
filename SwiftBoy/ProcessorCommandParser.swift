@@ -9,8 +9,8 @@
 import Foundation
 
 extension Processor {
-    // Command processor
-    func processCommand(_ command: [UInt8]) {
+    // Command parser
+    func parseCommand(_ command: [UInt8]) {
         switch(command[0]) {
         case 0x00: // NOP
             return
