@@ -11,6 +11,7 @@ import Cocoa
 class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet var disassemblyController: NSArrayController!
     @IBOutlet weak var disassmeblyView: NSScrollView!
+    var currentAddressString: String?
     
     enum FlowControlSegment: Int {
         case Stop = 0
@@ -43,6 +44,7 @@ class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
         }
         disassemblyController.content = disassemblyContent
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,4 +71,25 @@ class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
         print(caller.selectedSegment);
     }
     
+    
+    func setCurrentOpcode(_ address: Int?) {
+        if let address = address {
+            currentAddressString = String(format:"0x%04X", address)
+        }
+        else {
+            currentAddressString = nil
+        }
+    }
+}
+
+extension DisassemblyViewController: NSTableViewDelegate {
+    func tableView(_ tableView: NSTableView,
+                   didAdd rowView: NSTableRowView,
+                   forRow row: Int)
+    {
+        let firstColumn = rowView.subviews[0] as? NSTableCellView
+        if(firstColumn?.textField?.stringValue == currentAddressString) {
+            rowView.backgroundColor = NSColor(red: 0.1, green: 0.4, blue: 0.9, alpha: 0.5)
+        }
+    }
 }

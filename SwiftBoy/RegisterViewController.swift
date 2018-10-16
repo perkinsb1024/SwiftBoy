@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class RegsiterViewController: NSViewController, NSTextFieldDelegate {
+class RegisterViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet var registerController: NSDictionaryController!
     dynamic var testDict: NSMutableDictionary = ["a": "test"]
     override func viewDidLoad() {

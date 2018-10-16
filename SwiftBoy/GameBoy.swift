@@ -18,6 +18,7 @@ class GameBoy: NSObject {
     let internalRam: Memory
     let memoryManager: MemoryManager
     var cartridge: Cartridge?
+    var debugger: Debugger?
     
     init(screenView: ScreenView) {
         // Memory
@@ -34,6 +35,7 @@ class GameBoy: NSObject {
     }
     
     func loadRom(romFile: String) {
+        // Todo: Check if file exists
         cartridge = Cartridge(romFile)
         guard let cartridge = cartridge else {
             return
@@ -63,11 +65,11 @@ class GameBoy: NSObject {
     
     func drawLogo(startRow : Int) {
         let startCol = 32
-        screen.fill(colorCode: 3)
+        screen.fill(colorCode: 0)
         for i in 0 ..< cartridge!.logo.count {
             let byte = cartridge!.logo[i]
             for j in 0 ..< 8 {
-                let colorCode = (Int(byte) >> (7 - j) & 1) == 1 ? 0 : 3
+                let colorCode = (Int(byte) >> (7 - j) & 1) == 1 ? 3 : 0
                 let dX = ((Int(i / 2) % 12) * 4 + (j % 4)) * 2
                 let dY = ((i < 24 ? 0 : 4) + (i % 2) * 2 + (j < 4 ? 0 : 1)) * 2
                 
@@ -81,6 +83,9 @@ class GameBoy: NSObject {
         func scroll(_ : Timer) {
             if(startRow < 58) {
                 drawLogo(startRow: startRow + 1)
+            }
+            else {
+                self.start()
             }
         }
         Timer.scheduledTimer(withTimeInterval: 0.03, repeats: false, block: scroll)

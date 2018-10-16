@@ -18,7 +18,7 @@ class Processor {
     let registers: Register
     let ram: Memory
     let memoryManager: MemoryManager
-    var halted: Bool = false
+    var halted: Bool = true // Todo: Use this
     
     init(registers: Register, flags: Flag, ram: Memory, memoryManager: MemoryManager) {
         self.registers = registers
@@ -61,7 +61,7 @@ class Processor {
         // Todo: If command is nil, fail gracefully?
         // Todo: Triple check that it's safe to increment PC before processing the command
         registers.PC += UInt16(command.count)
-        processCommand(command)
+        parseCommand(command)
     }
     
     func getNextCommand() -> [UInt8]? {
