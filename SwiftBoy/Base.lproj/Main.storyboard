@@ -448,6 +448,9 @@
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <binding destination="fhl-1M-bEf" name="value" keyPath="registers.hexA" id="MT5-Cc-LqQ"/>
+                                            </connections>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4vx-RB-LCJ">
                                             <rect key="frame" x="102" y="98" width="12" height="17"/>
@@ -574,6 +577,9 @@
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <binding destination="fhl-1M-bEf" name="value" keyPath="registers.B" id="Msj-b3-GCA"/>
+                                            </connections>
                                         </textField>
                                     </subviews>
                                 </view>
@@ -810,13 +816,9 @@
                             <constraint firstAttribute="trailing" secondItem="i1w-FY-JOl" secondAttribute="trailing" constant="20" id="zWL-e7-2cj"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="registerController" destination="d5c-RT-UyV" id="Xn5-K3-pFi"/>
-                    </connections>
                 </viewController>
                 <customObject id="7R5-h2-oZY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="4bo-Lx-nT1"/>
-                <dictionaryController objectClassName="_NSDictionaryControllerKeyValuePair" id="d5c-RT-UyV"/>
             </objects>
             <point key="canvasLocation" x="1624" y="1141"/>
         </scene>

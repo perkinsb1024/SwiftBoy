@@ -8,16 +8,19 @@
 
 import Foundation
 
-struct Debugger {
+class Debugger {
     let disassemblyViewController: DisassemblyViewController!
     let registerViewController: RegisterViewController!
-    let processor: Processor!
+    let gameBoy: GameBoy!
     
-    init(disassemblyViewController: DisassemblyViewController, registerViewController: RegisterViewController, processor: Processor) {
+    init(disassemblyViewController: DisassemblyViewController, registerViewController: RegisterViewController, gameBoy: GameBoy) {
         self.disassemblyViewController = disassemblyViewController
         self.registerViewController = registerViewController
-        self.processor = processor
+        self.gameBoy = gameBoy
+        // Pass the registers to the register view controller
+        print("Setting registers")
+        registerViewController.registers = gameBoy.processor.registers
     }
-    
-    
+
+
 }

@@ -8,19 +8,19 @@
 
 import Foundation
 
-class Register {
-    var A : UInt8 = 0x01
-    var B : UInt8 = 0x00
-    var C : UInt8 = 0x13
-    var D : UInt8 = 0x00
-    var E : UInt8 = 0xD8
-    var F : UInt8 = 0xB0
-    var H : UInt8 = 0x01
-    var L : UInt8 = 0x4D
-    var SP : UInt16 = 0xFFFE
-    var PC : UInt16 = 0x100
-    var IME : UInt8 = 0
-    var AF : UInt16 {
+class Register: NSObject {
+    dynamic var A : UInt8 = 0x01
+    dynamic var B : UInt8 = 0x00
+    dynamic var C : UInt8 = 0x13
+    dynamic var D : UInt8 = 0x00
+    dynamic var E : UInt8 = 0xD8
+    dynamic var F : UInt8 = 0xB0
+    dynamic var H : UInt8 = 0x01
+    dynamic var L : UInt8 = 0x4D
+    dynamic var SP : UInt16 = 0xFFFE
+    dynamic var PC : UInt16 = 0x100
+    dynamic var IME : UInt8 = 0
+    dynamic var AF : UInt16 {
         get {
             //return UInt16(F) << 8 + UInt16(A)
             return UInt16(A) << 8 + UInt16(F)
@@ -32,7 +32,7 @@ class Register {
             F = UInt8(newValue & 0xFF)
         }
     }
-    var BC : UInt16 {
+    dynamic var BC : UInt16 {
         get {
             //return UInt16(C) << 8 + UInt16(B)
             return UInt16(B) << 8 + UInt16(C)
@@ -44,7 +44,7 @@ class Register {
             C = UInt8(newValue & 0xFF)
         }
     }
-    var DE : UInt16 {
+    dynamic var DE : UInt16 {
         get {
             //return UInt16(E) << 8 + UInt16(D)
             return UInt16(D) << 8 + UInt16(E)
@@ -56,7 +56,7 @@ class Register {
             E = UInt8(newValue & 0xFF)
         }
     }
-    var HL : UInt16 {
+    dynamic var HL : UInt16 {
         get {
             //return UInt16(L) << 8 + UInt16(H)
             return UInt16(H) << 8 + UInt16(L)
@@ -78,5 +78,10 @@ class Register {
             let hexValue = String(format:"%02X", value)
             print("\(name):\t0x\(hexValue)")
         }
+    }
+    
+    dynamic var hexA: String {
+        let hex = String(format:"%02X", A)
+        return "0x\(hex)"
     }
 }

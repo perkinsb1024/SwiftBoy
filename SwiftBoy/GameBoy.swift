@@ -18,7 +18,6 @@ class GameBoy: NSObject {
     let internalRam: Memory
     let memoryManager: MemoryManager
     var cartridge: Cartridge?
-    var debugger: Debugger?
     
     init(screenView: ScreenView) {
         // Memory

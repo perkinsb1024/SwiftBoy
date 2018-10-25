@@ -12,6 +12,7 @@ class ViewController: NSViewController {
     @IBOutlet var screen: ScreenView!
     var debuggerWindow: NSWindowController?
     var gameBoy: GameBoy?
+    var debugger: Debugger?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +30,10 @@ class ViewController: NSViewController {
             disassemblyViewController = (debuggerWindow!.contentViewController?.childViewControllers[0] as! DisassemblyViewController)
             registerViewController = (debuggerWindow!.contentViewController?.childViewControllers[1] as! RegisterViewController)
             disassemblyViewController?.generateDisassembly(processor: (gameBoy?.processor)!)
+            gameBoy?.processor.registers.A = 42
+            gameBoy?.processor.registers.B = 24
             if(disassemblyViewController != nil && registerViewController != nil) {
-                gameBoy?.debugger = Debugger(disassemblyViewController: disassemblyViewController!, registerViewController: registerViewController!, processor: (gameBoy?.processor)!)
+                debugger = Debugger(disassemblyViewController: disassemblyViewController!, registerViewController: registerViewController!, gameBoy: gameBoy!)
             }
         } else {
             print("Error, no debugger window")
@@ -49,9 +52,14 @@ class ViewController: NSViewController {
         switch(action) {
         case .Stop:
             print("Stop")
+            gameBoy?.processor.registers.A += 1
+            print(gameBoy?.processor.registers.A)
+            gameBoy?.processor.registers.B += 1
+            print(gameBoy?.processor.registers.B)
             break
         case .Step:
             print("Step")
+            gameBoy?.processor.step();
             break
         case .Run:
             print("Run")
