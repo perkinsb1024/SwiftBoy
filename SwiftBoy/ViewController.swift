@@ -36,6 +36,12 @@ class ViewController: NSViewController {
             print("Error, no debugger window")
         }
         
+        // Register for key events
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
+            self.keyDown(with: $0)
+            return $0
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(handleFlowControl), name: flowControlNotificationName, object: nil)
         //gameBoy?.loadRom(romFile: "/Users/benperkins/Documents/Programming/Gameboy/ROMs/socks.gb")
         gameBoy?.drawLogo(startRow: -16)
@@ -52,10 +58,18 @@ class ViewController: NSViewController {
             break
         case .Step:
             print("Step")
+            gameBoy?.processor.step();
             break
         case .Run:
             print("Run")
             break
+        }
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        if(event.characters == "\t") {
+            print("Step")
+            gameBoy?.processor.step();
         }
     }
 }

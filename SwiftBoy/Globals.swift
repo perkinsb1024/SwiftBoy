@@ -10,6 +10,7 @@ import Foundation
 
 
 let flowControlNotificationName = NSNotification.Name("FlowControlNotification")
+let updateDebuggerNotificationName = NSNotification.Name("UpdateDebuggerNotification")
 
 enum FlowControlAction {
     case Stop

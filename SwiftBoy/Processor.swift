@@ -6,6 +6,8 @@
 //  Copyright © 2016 perkinsb1024. All rights reserved.
 //
 
+import Cocoa
+
 enum Conditional {
     case NZ
     case Z
@@ -25,6 +27,7 @@ class Processor {
         self.ram = ram
         self.memoryManager = memoryManager
         self.flags = flags
+        updateDebugger()
     }
     
     func dumpRegisters() {
@@ -62,6 +65,7 @@ class Processor {
         // Todo: Triple check that it's safe to increment PC before processing the command
         registers.PC += UInt16(command.count)
         parseCommand(command)
+        updateDebugger()
     }
     
     func getNextCommand() -> [UInt8]? {
@@ -76,5 +80,9 @@ class Processor {
         let opcode = memoryManager.readMemory(offset: Int(address), length: 1)![0]
         // Return the full command
         return memoryManager.readMemory(offset: Int(address), length: getOpcodeLength(opcode))!
+    }
+    
+    func updateDebugger() {
+        NotificationCenter.default.post(name: updateDebuggerNotificationName, object: nil);
     }
 }

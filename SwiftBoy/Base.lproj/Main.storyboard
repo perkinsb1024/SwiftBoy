@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -171,7 +171,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="409"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mXy-kO-cBg">
+                            <scrollView misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mXy-kO-cBg">
                                 <rect key="frame" x="20" y="62" width="560" height="338"/>
                                 <clipView key="contentView" id="gfh-rm-SMd">
                                     <rect key="frame" x="1" y="0.0" width="558" height="337"/>
@@ -371,7 +371,7 @@
                                     <constraint firstAttribute="height" constant="347" id="hL7-RL-GOL"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="n55-lY-gAO">
-                                    <rect key="frame" x="1" y="7" width="0.0" height="16"/>
+                                    <rect key="frame" x="-100" y="-100" width="0.0" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="LFM-zb-RI1">
@@ -397,11 +397,23 @@
                                     <action selector="flowControlSegmentClicked:" target="U4L-Wb-inz" id="O28-4s-klU"/>
                                 </connections>
                             </segmentedControl>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HtV-5Y-cRr">
+                                <rect key="frame" x="489" y="22" width="93" height="18"/>
+                                <buttonCell key="cell" type="check" title="Scroll to PC" bezelStyle="regularSquare" imagePosition="left" alignment="right" state="on" inset="2" id="j32-FA-Thb">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="scrollToPcCheckboxClicked:" target="U4L-Wb-inz" id="P76-Y9-TDj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="mXy-kO-cBg" firstAttribute="leading" secondItem="Bff-jD-75J" secondAttribute="leading" constant="20" id="BEt-Sm-iCk"/>
                             <constraint firstAttribute="bottom" secondItem="n2q-ne-jCH" secondAttribute="bottom" constant="20" id="Ckx-to-jWg"/>
+                            <constraint firstItem="HtV-5Y-cRr" firstAttribute="centerY" secondItem="n2q-ne-jCH" secondAttribute="centerY" id="Fhj-Da-OnM"/>
                             <constraint firstAttribute="trailing" secondItem="mXy-kO-cBg" secondAttribute="trailing" constant="20" id="LdG-Lm-5p0"/>
+                            <constraint firstAttribute="trailing" secondItem="HtV-5Y-cRr" secondAttribute="trailing" constant="20" id="PtD-fC-OMq"/>
                             <constraint firstItem="mXy-kO-cBg" firstAttribute="top" secondItem="Bff-jD-75J" secondAttribute="top" constant="9" id="RKz-by-iGy"/>
                             <constraint firstItem="n2q-ne-jCH" firstAttribute="leading" secondItem="Bff-jD-75J" secondAttribute="leading" constant="20" id="l7O-Ic-sxm"/>
                             <constraint firstItem="n2q-ne-jCH" firstAttribute="top" secondItem="mXy-kO-cBg" secondAttribute="bottom" constant="11" id="wpF-KR-fdy"/>
@@ -409,6 +421,7 @@
                     </view>
                     <connections>
                         <outlet property="disassemblyController" destination="kNy-cI-8nR" id="nrR-5i-Kq2"/>
+                        <outlet property="disassemblyTableView" destination="SIR-i9-t6m" id="9LW-hX-idC"/>
                         <outlet property="disassmeblyView" destination="mXy-kO-cBg" id="ZtG-J6-cdI"/>
                     </connections>
                 </viewController>
@@ -797,6 +810,9 @@
                                         <segment label="Hex" selected="YES"/>
                                     </segments>
                                 </segmentedCell>
+                                <connections>
+                                    <action selector="baseSelectionSegmentClicked:" target="fhl-1M-bEf" id="VoE-bL-rdn"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <constraints>
@@ -811,7 +827,26 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="aValue" destination="YEY-bn-h5t" id="o8f-nn-hO5"/>
+                        <outlet property="afValue" destination="wyB-9K-azg" id="8ad-mb-5LW"/>
+                        <outlet property="bValue" destination="aZz-Ib-q2Z" id="ljY-lA-WoA"/>
+                        <outlet property="bcValue" destination="igg-Ok-Wc6" id="5HP-PC-tCR"/>
+                        <outlet property="cFlagValue" destination="yDs-YC-xMb" id="tYQ-M5-0OZ"/>
+                        <outlet property="cValue" destination="3aU-Hc-bpH" id="EiE-OT-Xh7"/>
+                        <outlet property="dValue" destination="6bx-J5-eMg" id="68s-So-2kC"/>
+                        <outlet property="deValue" destination="a91-fk-Pos" id="Vpg-eE-5yQ"/>
+                        <outlet property="decHexSelector" destination="i1w-FY-JOl" id="b2D-K8-bcK"/>
+                        <outlet property="eValue" destination="qNb-Aw-72S" id="cgz-3v-v4W"/>
+                        <outlet property="fValue" destination="EpM-A1-qvv" id="VkQ-Mk-wWT"/>
+                        <outlet property="hFlagValue" destination="4kA-19-Hqk" id="4MK-2y-NgJ"/>
+                        <outlet property="hValue" destination="IGK-hG-D6O" id="8TP-lh-urM"/>
+                        <outlet property="hlValue" destination="isE-LM-tTx" id="RNG-BW-lG2"/>
+                        <outlet property="lValue" destination="S7d-vO-6HO" id="GJ7-de-iwg"/>
+                        <outlet property="nFlagValue" destination="vbe-0l-KkF" id="HFe-a3-X0O"/>
+                        <outlet property="pcValue" destination="Bni-fk-A4p" id="kNN-7I-9cT"/>
                         <outlet property="registerController" destination="d5c-RT-UyV" id="Xn5-K3-pFi"/>
+                        <outlet property="spValue" destination="1iF-ZO-gU9" id="Gfs-gt-8rW"/>
+                        <outlet property="zFlagValue" destination="AdI-X9-Zj9" id="u1S-Xr-2pp"/>
                     </connections>
                 </viewController>
                 <customObject id="7R5-h2-oZY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

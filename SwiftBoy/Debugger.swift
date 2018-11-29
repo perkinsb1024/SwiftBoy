@@ -17,6 +17,9 @@ struct Debugger {
         self.disassemblyViewController = disassemblyViewController
         self.registerViewController = registerViewController
         self.processor = processor
+        
+        registerViewController.processor = processor
+        disassemblyViewController.processor = processor
     }
     
     

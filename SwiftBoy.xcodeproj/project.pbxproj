@@ -52,8 +52,8 @@
 
 /* Begin PBXFileReference section */
 		DD0134B81EA447BF006A885A /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		DD5C24F62026E53D0000E2C5 /* Debugger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debugger.swift; sourceTree = "<group>"; };
 		DD324BAB21710AB100C3A311 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		DD5C24F62026E53D0000E2C5 /* Debugger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debugger.swift; sourceTree = "<group>"; };
 		DD5EB5321E0C6832002FA559 /* Flag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flag.swift; sourceTree = "<group>"; };
 		DD5EB5341E0C762A002FA559 /* ProcessorCommandParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessorCommandParser.swift; sourceTree = "<group>"; };
 		DD5EB5361E0C7633002FA559 /* ProcessorOpcodeLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessorOpcodeLogic.swift; sourceTree = "<group>"; };
@@ -135,25 +135,25 @@
 			children = (
 				DDE60CC51DE9503500A24A33 /* Assets.xcassets */,
 				DDE60CC71DE9503500A24A33 /* Main.storyboard */,
-				DDEDCE0E1EA2C6C600533665 /* DisassemblyViewController.swift */,
 				DD324BAB21710AB100C3A311 /* Globals.swift */,
-				DD0134B81EA447BF006A885A /* RegisterViewController.swift */,
+				DD90C9071E73CE51000C4E17 /* Util.swift */,
 				DDE60CC11DE9503500A24A33 /* AppDelegate.swift */,
 				DDE60CC31DE9503500A24A33 /* ViewController.swift */,
 				DDEA4AA41DEE8B1400677587 /* GameBoy.swift */,
-				DD5C24F62026E53D0000E2C5 /* Debugger.swift */,
+				DDE60CEC1DE950A400A24A33 /* ScreenView.swift */,
+				DD8C48BB1DFE77DA00882FD3 /* ScreenController.swift */,
 				DD8508B91DEC098600A44942 /* Processor.swift */,
 				DD5EB5341E0C762A002FA559 /* ProcessorCommandParser.swift */,
 				DD8BE8AF1EA42863003F0D8C /* ProcessorOpcodeDescriber.swift */,
 				DD5EB5361E0C7633002FA559 /* ProcessorOpcodeLogic.swift */,
 				DD8508BD1DEC8ED300A44942 /* Register.swift */,
-				DD5EB5321E0C6832002FA559 /* Flag.swift */,
 				DD8C48B91DFE157800882FD3 /* Memory.swift */,
 				DD8C48B71DFE096200882FD3 /* MemoryManager.swift */,
-				DD8C48BB1DFE77DA00882FD3 /* ScreenController.swift */,
-				DDE60CEC1DE950A400A24A33 /* ScreenView.swift */,
+				DD5EB5321E0C6832002FA559 /* Flag.swift */,
 				DD8508BB1DEC099E00A44942 /* Cartridge.swift */,
-				DD90C9071E73CE51000C4E17 /* Util.swift */,
+				DD5C24F62026E53D0000E2C5 /* Debugger.swift */,
+				DDEDCE0E1EA2C6C600533665 /* DisassemblyViewController.swift */,
+				DD0134B81EA447BF006A885A /* RegisterViewController.swift */,
 				DDE60CCA1DE9503500A24A33 /* Info.plist */,
 			);
 			path = SwiftBoy;
