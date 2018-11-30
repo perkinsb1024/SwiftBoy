@@ -8,6 +8,7 @@
 
 import Foundation
 
+// Todo: Maybe these functions should throw instead, so they could return a non-optional?
 class Memory {
     let readOnly: Bool
     var data: Array<UInt8>
@@ -43,7 +44,7 @@ class Memory {
         return data[index]
     }
     func readDataAt(_ range: Range<Int>) -> [UInt8]? {
-        guard range.lowerBound >= 0 && range.upperBound <= data.count else {
+        guard range.lowerBound >= 0 && range.last! <= data.count else {
             return nil
         }
         return Array(data[range])
@@ -67,7 +68,7 @@ class Memory {
     
     @discardableResult
     func writeData(_ values: [UInt8], toRange range: Range<Int>) -> Bool {
-        guard readOnly == false && range.lowerBound >= 0 && range.upperBound < data.count else {
+        guard readOnly == false && range.lowerBound >= 0 && range.last! < data.count else {
             return false
         }
         data.replaceSubrange(range, with: values)

@@ -51,18 +51,21 @@ class MemoryManager {
     let registers: Register
     let flags: Flag
     let ram: Memory
+    let ioRegisters: IORegister
     var cartridge: Cartridge?
     
-    init(registers: Register, flags: Flag, ram: Memory) {
+    init(registers: Register, flags: Flag, ram: Memory, ioRegisters: IORegister) {
         self.registers = registers
         self.flags = flags
         self.ram = ram
+        self.ioRegisters = ioRegisters
     }
     
-    init(registers: Register, flags: Flag, ram: Memory, cartridge: Cartridge) {
+    init(registers: Register, flags: Flag, ram: Memory, ioRegisters: IORegister, cartridge: Cartridge) {
         self.registers = registers
         self.flags = flags
         self.ram = ram
+        self.ioRegisters = ioRegisters
         self.cartridge = cartridge
     }
     
@@ -124,8 +127,7 @@ class MemoryManager {
             return nil
             //return self.cartridge.readRomAt(offset, length: length)
         case offset where offset >= REG_START && offset + length <= ZERO_PAGE_START:
-            // Todo: Read register
-            return nil
+            return ioRegisters.readIORegister(offset)
             //return self.cartridge.readRomAt(offset, length: length)
         case offset where offset >= ZERO_PAGE_START && offset + length <= INT_ENABLE_START:
             // Read zero page (internal RAM?)
@@ -231,13 +233,12 @@ class MemoryManager {
             // Todo: Write OAM (object attribute memory)
             return false
         case offset where offset >= REG_START && offset + length <= ZERO_PAGE_START:
-            // Todo: Write register
-            return false
+            return ioRegisters.writeIORegister(offset, data: data[0])
         case offset where offset >= ZERO_PAGE_START && offset + length <= INT_ENABLE_START:
             // Write zero page (internal ram?)
             return ram.writeData(data, toRange: offset..<(offset+length))
         case offset where offset >= INT_ENABLE_START && offset + length <= UPPER_BOUND:
-            registers.IME = (data[0] == UInt8(1)) ? 1 : 0
+            registers.IME = (data[0] > UInt8(0)) ? 1 : 0
             return true
         default:
             return false

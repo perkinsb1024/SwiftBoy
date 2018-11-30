@@ -8,14 +8,6 @@
 
 import Cocoa
 
-struct disassemblyTableEntry {
-    var address: String
-    var opcode: String
-    var data1: String
-    var data2: String
-    var description: String
-}
-
 class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet var disassemblyController: NSArrayController!
     @IBOutlet weak var disassmeblyView: NSScrollView!

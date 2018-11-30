@@ -16,6 +16,7 @@ class GameBoy: NSObject {
     let flags: Flag
     // Instead of several discrete portions of memory, we'll just make one big block and restrict access at the read/write level
     let internalRam: Memory
+    let ioRegisters: IORegister
     let memoryManager: MemoryManager
     var cartridge: Cartridge?
     var debugger: Debugger?
@@ -25,8 +26,9 @@ class GameBoy: NSObject {
         registers = Register()
         flags = Flag(registers: registers)
         internalRam = Memory(withSize: 0xFFFF, initialValue: 0, readOnly: false)
+        ioRegisters = IORegister()
         // Memory Manager
-        memoryManager = MemoryManager(registers: registers, flags: flags, ram: internalRam)
+        memoryManager = MemoryManager(registers: registers, flags: flags, ram: internalRam, ioRegisters: ioRegisters)
         // Memory Consumers (Processor, IO)
         processor = Processor(registers: registers, flags: flags, ram: internalRam, memoryManager: memoryManager)
         screen = ScreenController(screen: screenView, memoryManager: memoryManager)
