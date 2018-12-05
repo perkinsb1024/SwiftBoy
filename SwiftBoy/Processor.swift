@@ -63,6 +63,7 @@ class Processor {
         let command = getNextCommand()!
         // Todo: If command is nil, fail gracefully?
         // Todo: Triple check that it's safe to increment PC before processing the command
+        //      Yes, it appears so, note: https://8bitnotes.com/2017/05/z80-addressing-modes/ -> "(this is due to PC getting incremented by two during instruction execution)"
         registers.PC += UInt16(command.count)
         parseCommand(command)
         updateDebugger()

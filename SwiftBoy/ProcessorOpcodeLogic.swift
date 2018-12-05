@@ -205,7 +205,13 @@ extension Processor {
     }
     
     func JR(offset: UInt8) {
-        registers.PC = registers.PC &+ UInt16(offset)
+        let signedOffset = Int8(bitPattern: offset)
+        if(signedOffset < 0) {
+            registers.PC = registers.PC &- UInt16(abs(signedOffset))
+        }
+        else {
+            registers.PC = registers.PC &+ UInt16(abs(signedOffset))
+        }        
     }
     
     func JR(offset: UInt8, condition: Conditional) {

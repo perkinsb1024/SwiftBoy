@@ -90,11 +90,28 @@ class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
     }
     
     func scrollToProgramCounter() {
+        // Padding to center the selected command
         let PADDING_ROWS = 8
+        // Determine the first row that is currently visible
+        let rect = disassemblyTableView.visibleRect
+        let rows = disassemblyTableView.rows(in: rect)
+        let firstVisibleRowIndex = rows.location
         for(i, command) in disassemblyContent.enumerated() {
             if(command["address"] == currentAddressString) {
-                let row = min(i + PADDING_ROWS, disassemblyContent.count - 1)
-                disassemblyTableView.scrollRowToVisible(row)
+                var newRow = i
+                if(newRow < firstVisibleRowIndex) {
+                    // If we're scrolling upwards, subtract the padding from the row
+                    if(newRow > PADDING_ROWS) {
+                        newRow -= PADDING_ROWS
+                    }
+                }
+                else {
+                    // If we're scrolling downward, add the padding from the row
+                    if(newRow < disassemblyContent.count - PADDING_ROWS - 1) {
+                        newRow += PADDING_ROWS
+                    }
+                }
+                disassemblyTableView.scrollRowToVisible(newRow)
                 break
             }
         }
