@@ -11,6 +11,7 @@ import Foundation
 
 let flowControlNotificationName = NSNotification.Name("FlowControlNotification")
 let updateDebuggerNotificationName = NSNotification.Name("UpdateDebuggerNotification")
+let emulatorDelayChangeNotificationName = NSNotification.Name("EmulatorDelayChangeNotification")
 
 enum FlowControlAction {
     case Stop

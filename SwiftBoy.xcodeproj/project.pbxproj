@@ -21,6 +21,7 @@
 		DD8C48BA1DFE157800882FD3 /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8C48B91DFE157800882FD3 /* Memory.swift */; };
 		DD8C48BC1DFE77DA00882FD3 /* ScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8C48BB1DFE77DA00882FD3 /* ScreenController.swift */; };
 		DD90C9081E73CE51000C4E17 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD90C9071E73CE51000C4E17 /* Util.swift */; };
+		DDD8452922596ACF0002144D /* joypad.gb in Resources */ = {isa = PBXBuildFile; fileRef = DDD8452822596ACF0002144D /* joypad.gb */; };
 		DDE1763C21B100A10057DC49 /* IORegister.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE1763B21B100A10057DC49 /* IORegister.swift */; };
 		DDE60CC21DE9503500A24A33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE60CC11DE9503500A24A33 /* AppDelegate.swift */; };
 		DDE60CC41DE9503500A24A33 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE60CC31DE9503500A24A33 /* ViewController.swift */; };
@@ -66,6 +67,7 @@
 		DD8C48B91DFE157800882FD3 /* Memory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		DD8C48BB1DFE77DA00882FD3 /* ScreenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenController.swift; sourceTree = "<group>"; };
 		DD90C9071E73CE51000C4E17 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		DDD8452822596ACF0002144D /* joypad.gb */ = {isa = PBXFileReference; lastKnownFileType = file; path = joypad.gb; sourceTree = "<group>"; };
 		DDE1763B21B100A10057DC49 /* IORegister.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IORegister.swift; sourceTree = "<group>"; };
 		DDE60CBE1DE9503500A24A33 /* SwiftBoy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftBoy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDE60CC11DE9503500A24A33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -111,6 +113,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DDD8452A22596B400002144D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DDD8452822596ACF0002144D /* joypad.gb */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		DDE60CB51DE9503500A24A33 = {
 			isa = PBXGroup;
 			children = (
@@ -135,6 +145,7 @@
 		DDE60CC01DE9503500A24A33 /* SwiftBoy */ = {
 			isa = PBXGroup;
 			children = (
+				DDD8452A22596B400002144D /* Resources */,
 				DDE60CC51DE9503500A24A33 /* Assets.xcassets */,
 				DDE60CC71DE9503500A24A33 /* Main.storyboard */,
 				DD324BAB21710AB100C3A311 /* Globals.swift */,
@@ -295,6 +306,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDD8452922596ACF0002144D /* joypad.gb in Resources */,
 				DDE60CC61DE9503500A24A33 /* Assets.xcassets in Resources */,
 				DDE60CC91DE9503500A24A33 /* Main.storyboard in Resources */,
 			);

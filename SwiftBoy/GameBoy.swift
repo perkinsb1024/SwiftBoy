@@ -20,6 +20,8 @@ class GameBoy: NSObject {
     let memoryManager: MemoryManager
     var cartridge: Cartridge?
     var debugger: Debugger?
+    var emulating: Bool = false
+    var emuStepDelay: Float = 0.250 // 250mS
     
     init(screenView: ScreenView) {
         // Memory
@@ -45,24 +47,50 @@ class GameBoy: NSObject {
         memoryManager.setCartridge(cartridge)
     }
     
-    // Not a Game Boy hardware function -- Controls emulation
-    func stop() {
-        /* Todo: Figure out a clean way to stop emulation for debugging/stepping,
-            setting the processor.halted flag is not an acceptable solution.
-            Perhaps a GameBoy.emulating flag?
-        */
+    func emuSetDelay(ms delay: Int) {
+        emuStepDelay = Float(delay) / 1000.0;
+        print("Setting emuStepDelay to \(emuStepDelay)")
     }
     
-    func start() {
+    func emuStop() {
+        self.emulating = false
+    }
+    
+    func emuStart() {
+        // Do not continue if already emulating
+        guard !self.emulating else {
+            return
+        }
+        self.emulating = true
+        self.run(false)
+    }
+    
+    func emuStep() {
+        self.emulating = false
+        self.run(true)
+    }
+    
+    func run(_ forceStep: Bool) {
+        // Todo: Handle timing properly
+        func step(_ timer: Timer) {
+            if(!processor.halted) {
+                processor.step()
+            }
+            // Note: forceStep is not used in here or else it would just keep running
+            if(self.emulating) {
+                Timer.scheduledTimer(withTimeInterval: TimeInterval(emuStepDelay), repeats: false, block: step)
+            }
+        }
+        if(forceStep || self.emulating) {
+            Timer.scheduledTimer(withTimeInterval: 0.0, repeats: false, block: step)
+        }
+    }
+    
+    func reset() {
         registers.PC = 0x100
         registers.SP = 0xFFFE
-        Timer.scheduledTimer(withTimeInterval: 0.25, repeats: false, block: run)
-    }
-    
-    func run(_ : Timer) {
-        while(!processor.halted) {
-            processor.step()
-        }
+        processor.halted = false
+        self.drawLogo(startRow: -16)
     }
     
     func drawLogo(startRow : Int) {
@@ -87,7 +115,8 @@ class GameBoy: NSObject {
                 drawLogo(startRow: startRow + 1)
             }
             else {
-                self.start()
+                // Commenting out to prevent auto-starting
+//                self.emuStart()
             }
         }
         Timer.scheduledTimer(withTimeInterval: 0.03, repeats: false, block: scroll)

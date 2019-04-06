@@ -407,15 +407,48 @@
                                     <action selector="scrollToPcCheckboxClicked:" target="U4L-Wb-inz" id="P76-Y9-TDj"/>
                                 </connections>
                             </button>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6ID-oK-wA4">
+                                <rect key="frame" x="182" y="22" width="96" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="92" id="jgV-fI-GmM"/>
+                                </constraints>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="10" maxValue="250" doubleValue="250" tickMarkPosition="above" sliderType="linear" id="AYN-9F-QwW"/>
+                                <connections>
+                                    <action selector="emulatorStepDelayChanged:" target="U4L-Wb-inz" id="NNd-0X-BlC"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ifp-7d-aBL">
+                                <rect key="frame" x="141" y="23" width="38" height="17"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Delay" id="dwd-Te-bpj">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AhI-Cr-hv6">
+                                <rect key="frame" x="285" y="23" width="48" height="17"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="250mS" id="PNS-qd-KEy">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="AhI-Cr-hv6" firstAttribute="leading" secondItem="6ID-oK-wA4" secondAttribute="trailing" constant="11" id="2oa-gn-wWz"/>
+                            <constraint firstItem="6ID-oK-wA4" firstAttribute="centerY" secondItem="n2q-ne-jCH" secondAttribute="centerY" id="6T9-zL-jsL"/>
+                            <constraint firstItem="AhI-Cr-hv6" firstAttribute="centerY" secondItem="n2q-ne-jCH" secondAttribute="centerY" id="8Xr-HM-jPj"/>
                             <constraint firstItem="mXy-kO-cBg" firstAttribute="leading" secondItem="Bff-jD-75J" secondAttribute="leading" constant="20" id="BEt-Sm-iCk"/>
                             <constraint firstAttribute="bottom" secondItem="n2q-ne-jCH" secondAttribute="bottom" constant="20" id="Ckx-to-jWg"/>
                             <constraint firstItem="HtV-5Y-cRr" firstAttribute="centerY" secondItem="n2q-ne-jCH" secondAttribute="centerY" id="Fhj-Da-OnM"/>
+                            <constraint firstItem="Ifp-7d-aBL" firstAttribute="leading" secondItem="n2q-ne-jCH" secondAttribute="trailing" constant="16" id="Lb0-g7-Z81"/>
                             <constraint firstAttribute="trailing" secondItem="mXy-kO-cBg" secondAttribute="trailing" constant="20" id="LdG-Lm-5p0"/>
                             <constraint firstAttribute="trailing" secondItem="HtV-5Y-cRr" secondAttribute="trailing" constant="20" id="PtD-fC-OMq"/>
                             <constraint firstItem="mXy-kO-cBg" firstAttribute="top" secondItem="Bff-jD-75J" secondAttribute="top" constant="9" id="RKz-by-iGy"/>
+                            <constraint firstItem="AhI-Cr-hv6" firstAttribute="leading" secondItem="6ID-oK-wA4" secondAttribute="trailing" constant="11" id="TPB-oM-o8A"/>
+                            <constraint firstItem="Ifp-7d-aBL" firstAttribute="centerY" secondItem="n2q-ne-jCH" secondAttribute="centerY" id="VHS-qo-8Yf"/>
                             <constraint firstItem="n2q-ne-jCH" firstAttribute="leading" secondItem="Bff-jD-75J" secondAttribute="leading" constant="20" id="l7O-Ic-sxm"/>
+                            <constraint firstItem="6ID-oK-wA4" firstAttribute="leading" secondItem="Ifp-7d-aBL" secondAttribute="trailing" constant="7" id="u8h-oe-1Z7"/>
                             <constraint firstItem="n2q-ne-jCH" firstAttribute="top" secondItem="mXy-kO-cBg" secondAttribute="bottom" constant="11" id="wpF-KR-fdy"/>
                         </constraints>
                     </view>
@@ -423,6 +456,7 @@
                         <outlet property="disassemblyController" destination="kNy-cI-8nR" id="nrR-5i-Kq2"/>
                         <outlet property="disassemblyTableView" destination="SIR-i9-t6m" id="9LW-hX-idC"/>
                         <outlet property="disassmeblyView" destination="mXy-kO-cBg" id="ZtG-J6-cdI"/>
+                        <outlet property="emulatorDelayLabel" destination="AhI-Cr-hv6" id="ASn-pd-XIx"/>
                     </connections>
                 </viewController>
                 <customObject id="3Rs-8s-lrr" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

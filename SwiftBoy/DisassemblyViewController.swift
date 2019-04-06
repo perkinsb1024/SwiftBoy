@@ -12,11 +12,17 @@ class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet var disassemblyController: NSArrayController!
     @IBOutlet weak var disassmeblyView: NSScrollView!
     @IBOutlet var disassemblyTableView: NSTableView!
+    @IBOutlet var emulatorDelayLabel: NSTextField!
     var currentAddressString: String?
     var processor: Processor?
     var disassemblyContent: [[String: String]] = []
+    var breakpoints: Set<String> = []
     var selectedRowIndex: Int = 0
     var shouldScrollToProgramCounter = true
+    
+    let STANDARD_COLOR = NSColor.white
+    let PC_COLOR = NSColor(red: 0.1, green: 0.4, blue: 0.9, alpha: 0.5)
+    let BREAKPOINT_COLOR = NSColor(red: 0.9, green: 0.1, blue: 0.25, alpha: 1)
     
     enum FlowControlSegment: Int {
         case Stop = 0
@@ -58,7 +64,32 @@ class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        disassemblyTableView.doubleAction = #selector(disassemblyDoubleClickHandler)
+        disassemblyTableView.target = self
         NotificationCenter.default.addObserver(self, selector: #selector(updateDebugger), name: updateDebuggerNotificationName, object: nil)
+    }
+    
+    func disassemblyDoubleClickHandler(sender: Any) {
+        guard let tableView = sender as? NSTableView else {
+            return
+        }
+        let clickedRow = tableView.clickedRow
+        if(clickedRow >= 0 && clickedRow < disassemblyContent.count) {
+            guard let address = disassemblyContent[clickedRow]["address"] else {
+                return
+            }
+            print(address)
+            // Toggle the breakpoint at the address of the clicked row
+            if(breakpoints.contains(address)) {
+                breakpoints.remove(address)
+            }
+            else {
+                breakpoints.insert(address)
+            }
+            // Redraw the table
+            disassemblyTableView.reloadData()
+//            disassemblyTableView.reloadData(forRowIndexes: IndexSet(integersIn: clickedRow...clickedRow), columnIndexes: IndexSet(integersIn: 0..<disassemblyTableView.tableColumns.count))
+        }
     }
     
     @IBAction func flowControlSegmentClicked(_ caller: NSSegmentedControl) {
@@ -78,11 +109,22 @@ class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
         }
     }
     
+    @IBAction func emulatorStepDelayChanged(_ caller: NSSlider) {
+        let delayMs = caller.integerValue;
+        NotificationCenter.default.post(name: emulatorDelayChangeNotificationName, object: delayMs);
+        emulatorDelayLabel.stringValue = "\(delayMs)mS";
+    }
+    
     func updateDebugger() {
         guard let processor = processor else {
             return
         }
         setCurrentOpcode(processor.registers.PC)
+        // setCurrentOpcode updates currentAddressString, so it must happen first
+        if(breakpoints.contains(currentAddressString!)) {
+            // Todo: This method does not guarantee we actually stop at the breakpoint, since it is asynchronous... Fix that
+            NotificationCenter.default.post(name: flowControlNotificationName, object: FlowControlAction.Stop);
+        }
         disassemblyTableView.reloadData()
         if(shouldScrollToProgramCounter) {
             scrollToProgramCounter();
@@ -127,11 +169,20 @@ extension DisassemblyViewController: NSTableViewDelegate {
                    didAdd rowView: NSTableRowView,
                    forRow row: Int)
     {
-        let firstColumn = rowView.subviews[0] as? NSTableCellView
-        if(firstColumn?.textField?.stringValue == currentAddressString) {
-            rowView.backgroundColor = NSColor(red: 0.1, green: 0.4, blue: 0.9, alpha: 0.5)
-        } else {
-            rowView.backgroundColor = NSColor.white
+        let addrColumn = rowView.subviews[0] as? NSTableCellView
+        guard let rowAddress = addrColumn?.textField?.stringValue else {
+            return
         }
+        if(rowAddress == currentAddressString) {
+            rowView.backgroundColor = PC_COLOR
+        }
+        else if(breakpoints.contains(rowAddress)) {
+//            addrColumn?.textField?.textColor = BREAKPOINT_COLOR
+            rowView.backgroundColor = BREAKPOINT_COLOR
+        }
+        else {
+            rowView.backgroundColor = STANDARD_COLOR
+        }
+        
     }
 }

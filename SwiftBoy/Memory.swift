@@ -32,6 +32,7 @@ class Memory {
             data = Array(fileData)
         }
         catch {
+            print("Error info: \(error)")
             return nil
         }
         self.readOnly = readOnly

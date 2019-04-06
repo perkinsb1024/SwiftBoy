@@ -16,7 +16,7 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         gameBoy = GameBoy(screenView: screen)
-        gameBoy?.loadRom(romFile: "/Users/benperkins/dev/Gameboy/asm/joypadTest/joypad.gb")
+        gameBoy?.loadRom(romFile: (Bundle.main.url(forResource: "joypad", withExtension: "gb")?.path)!)
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
         
         debuggerWindow = storyboard.instantiateController(withIdentifier: "debuggerWindowController") as? NSWindowController
@@ -43,9 +43,8 @@ class ViewController: NSViewController {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleFlowControl), name: flowControlNotificationName, object: nil)
-        //gameBoy?.loadRom(romFile: "/Users/benperkins/Documents/Programming/Gameboy/ROMs/socks.gb")
-        gameBoy?.drawLogo(startRow: -16)
-//        gameBoy?.start()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDelayChange), name: emulatorDelayChangeNotificationName, object: nil)
+        gameBoy?.reset()
     }
     
     func handleFlowControl(_ notification: Notification) {
@@ -55,21 +54,30 @@ class ViewController: NSViewController {
         switch(action) {
         case .Stop:
             print("Stop")
+            gameBoy?.emuStop()
             break
         case .Step:
             print("Step")
-            gameBoy?.processor.step();
+            gameBoy?.emuStep()
             break
         case .Run:
             print("Run")
+            gameBoy?.emuStart()
             break
         }
+    }
+    
+    func handleDelayChange(_ notification: Notification) {
+        guard let delayMs = notification.object as? Int else {
+            return
+        }
+        gameBoy?.emuSetDelay(ms: delayMs)
     }
     
     override func keyDown(with event: NSEvent) {
         if(event.characters == "\t") {
             print("Step")
-            gameBoy?.processor.step();
+            gameBoy?.emuStep()
         }
     }
 }
