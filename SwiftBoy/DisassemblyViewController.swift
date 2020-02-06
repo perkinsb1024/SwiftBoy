@@ -34,7 +34,7 @@ class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
         guard let scrollToPcCheckbox = sender as? NSButton else {
             return
         }
-        shouldScrollToProgramCounter = (scrollToPcCheckbox.state == 1)
+        shouldScrollToProgramCounter = (scrollToPcCheckbox.state.rawValue == 1)
     }
     
     func generateDisassembly(processor: Processor) {
@@ -69,7 +69,7 @@ class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateDebugger), name: updateDebuggerNotificationName, object: nil)
     }
     
-    func disassemblyDoubleClickHandler(sender: Any) {
+    @objc func disassemblyDoubleClickHandler(sender: Any) {
         guard let tableView = sender as? NSTableView else {
             return
         }
@@ -115,7 +115,7 @@ class DisassemblyViewController: NSViewController, NSTextFieldDelegate {
         emulatorDelayLabel.stringValue = "\(delayMs)mS";
     }
     
-    func updateDebugger() {
+    @objc func updateDebugger() {
         guard let processor = processor else {
             return
         }

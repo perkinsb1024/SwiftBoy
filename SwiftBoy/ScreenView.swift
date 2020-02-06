@@ -12,7 +12,7 @@ class ScreenView: NSView {
     var image: NSImage = NSImage()
     
     override func draw(_ dirtyRect: NSRect) {
-        guard let context = NSGraphicsContext.current()?.cgContext else {
+        guard let context = NSGraphicsContext.current?.cgContext else {
             return
         }
         context.interpolationQuality = .none

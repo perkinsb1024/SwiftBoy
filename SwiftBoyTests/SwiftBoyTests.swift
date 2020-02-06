@@ -28,14 +28,16 @@ class SwiftBoyTests: XCTestCase {
         let flags: Flag
         let internalRam: Memory
         let memoryManager: MemoryManager
+        let ioRegisters: IORegister
         // Todo: This should be some kind of mock
         var cartridge: Cartridge
         
         registers = Register()
         flags = Flag(registers: registers)
         internalRam = Memory(withSize: 0xFFFF, initialValue: 0, readOnly: false)
+        ioRegisters = IORegister()
         // Memory Manager
-        memoryManager = MemoryManager(registers: registers, flags: flags, ram: internalRam)
+        memoryManager = MemoryManager(registers: registers, flags: flags, ram: internalRam, ioRegisters: ioRegisters)
         // Memory Consumers (Processor, IO)
         processor = Processor(registers: registers, flags: flags, ram: internalRam, memoryManager: memoryManager)
         cartridge = Cartridge()
@@ -61,14 +63,16 @@ class SwiftBoyTests: XCTestCase {
         let flags: Flag
         let internalRam: Memory
         let memoryManager: MemoryManager
+        let ioRegisters: IORegister
         // Todo: This should be some kind of mock
         var cartridge: Cartridge
         
         registers = Register()
         flags = Flag(registers: registers)
         internalRam = Memory(withSize: 0xFFFF, initialValue: 0, readOnly: false)
+        ioRegisters = IORegister()
         // Memory Manager
-        memoryManager = MemoryManager(registers: registers, flags: flags, ram: internalRam)
+        memoryManager = MemoryManager(registers: registers, flags: flags, ram: internalRam, ioRegisters: ioRegisters)
         // Memory Consumers (Processor, IO)
         processor = Processor(registers: registers, flags: flags, ram: internalRam, memoryManager: memoryManager)
         cartridge = Cartridge()
@@ -93,14 +97,16 @@ class SwiftBoyTests: XCTestCase {
         let flags: Flag
         let internalRam: Memory
         let memoryManager: MemoryManager
+        let ioRegisters: IORegister
         // Todo: This should be some kind of mock
         var cartridge: Cartridge
         
         registers = Register()
         flags = Flag(registers: registers)
         internalRam = Memory(withSize: 0xFFFF, initialValue: 0, readOnly: false)
+        ioRegisters = IORegister()
         // Memory Manager
-        memoryManager = MemoryManager(registers: registers, flags: flags, ram: internalRam)
+        memoryManager = MemoryManager(registers: registers, flags: flags, ram: internalRam, ioRegisters: ioRegisters)
         // Memory Consumers (Processor, IO)
         processor = Processor(registers: registers, flags: flags, ram: internalRam, memoryManager: memoryManager)
         cartridge = Cartridge()

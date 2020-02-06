@@ -12,7 +12,7 @@ func setBit(byte: inout UInt8, position: UInt8, value: Bool) {
     guard(position <= 7) else {
         return
     }
-    let mask = 1 << position;
+    let mask = UInt8(1 << position);
     if(value) {
         byte |= mask;
     } else {

@@ -44,7 +44,7 @@ class RegisterViewController: NSViewController, NSTextFieldDelegate {
         updateRegisters()
     }
     
-    func updateRegisters() {
+    @objc func updateRegisters() {
         // I know this is an ugly way to do things, but I couldn't make KVO or binding work properly
         guard let processor = processor else {
             return

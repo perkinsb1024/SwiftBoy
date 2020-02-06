@@ -26,8 +26,8 @@ class ViewController: NSViewController {
             var disassemblyViewController: DisassemblyViewController?
             var registerViewController: RegisterViewController?
             
-            disassemblyViewController = (debuggerWindow!.contentViewController?.childViewControllers[0] as! DisassemblyViewController)
-            registerViewController = (debuggerWindow!.contentViewController?.childViewControllers[1] as! RegisterViewController)
+            disassemblyViewController = (debuggerWindow!.contentViewController?.children[0] as! DisassemblyViewController)
+            registerViewController = (debuggerWindow!.contentViewController?.children[1] as! RegisterViewController)
             disassemblyViewController?.generateDisassembly(processor: (gameBoy?.processor)!)
             if(disassemblyViewController != nil && registerViewController != nil) {
                 gameBoy?.debugger = Debugger(disassemblyViewController: disassemblyViewController!, registerViewController: registerViewController!, processor: (gameBoy?.processor)!)
@@ -47,7 +47,7 @@ class ViewController: NSViewController {
         gameBoy?.reset()
     }
     
-    func handleFlowControl(_ notification: Notification) {
+    @objc func handleFlowControl(_ notification: Notification) {
         guard let action = notification.object as? FlowControlAction else {
             return
         }
@@ -67,7 +67,7 @@ class ViewController: NSViewController {
         }
     }
     
-    func handleDelayChange(_ notification: Notification) {
+    @objc func handleDelayChange(_ notification: Notification) {
         guard let delayMs = notification.object as? Int else {
             return
         }
